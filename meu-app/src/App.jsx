@@ -13,6 +13,28 @@ function App() {
     getPosts();
   }, []);
 
+  // Inserindo o post - const
+  const handleAdd = async () => {
+    const post = { title: "nTitle", body: "nBody" };
+    await axios.post(apiEndPoint, post)
+    setPosts([post, ...posts])
+  }
+  // Att : put
+  const handleUpdate = async post => {
+    post.title = "Atualizando os valores";
+    await axios.put(apiEndPoint + '/' + post.id)
+    const postClone = [...posts]
+    const index = postClone.indexOf(post)
+    postClone[index] = { ...post}
+    setPosts(postClone)
+  }
+  // At
+  // Deletar : delete
+  const handleDelete = async post => {
+    await axios.delete(apiEndPoint + '/' + post.id + post)
+    setPosts(posts.filter(p => p.id !== post.id))
+  }
+
   return (
     <div className="container">
       <h2>Qtd de itens: {posts.length} Na minha API</h2>
@@ -29,10 +51,13 @@ function App() {
             <tr key={post.id}>
               <td>{post.title}</td>
               <td>
-                <button className="btn btn-info btn-sm">Update</button>
+                <button onClick={() => handleUpdate(post)} className="btn btn-info btn-sm">Update</button>
               </td>
               <td>
-                <button className="btn btn-danger btn-sm">Delete</button>
+                <button onClick={handleAdd} className="btn btn-info btn-sm">Inserir</button>
+              </td>
+              <td>
+                <button onClick={() => handleDelete(post)} className="btn btn-danger btn-sm">Delete</button>
               </td>
             </tr>
           ))}
