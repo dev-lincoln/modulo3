@@ -1,4 +1,4 @@
-const Page1 = () => {
+const Page3 = () => {
     return (
         <div>
             <h2>Página 3</h2>
